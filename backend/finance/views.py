@@ -37,7 +37,7 @@ class WalletViewSet(viewsets.ModelViewSet):
                 expense=total("EXPENSE"),
                 saving=total("SAVING"),
             )
-            .annotate(balance=F("initial_balance") + F("income") - F("expense") - F("saving"))
+            .annotate(balance=F("initial_balance") + F("income") + F("saving") - F("expense"))
         )
 
     def _reload(self, serializer):
@@ -104,7 +104,8 @@ class SummaryView(APIView):
         }
 
         return Response({
-            "total_balance": money(initial_total + overall["income"] - overall["expense"] - overall["saving"]),
+            "username": request.user.username,
+            "total_balance": money(initial_total + overall["income"] + overall["saving"] - overall["expense"]),
             "total_saved": money(overall["saving"]),
             "wallet_count": wallets.count(),
             "this_month": {

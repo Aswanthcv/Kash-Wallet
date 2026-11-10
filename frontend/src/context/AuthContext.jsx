@@ -13,8 +13,8 @@ export function AuthProvider({ children }) {
     setIsAuthed(true);
   };
 
-  const register = async (username, email, password) => {
-    await api.post("/auth/register/", { username, email, password });
+  const register = async (username, email, password, confirmPassword) => {
+    await api.post("/auth/register/", { username, email, password, confirm_password: confirmPassword });
     await login(username, password); // log in right after signing up
   };
 

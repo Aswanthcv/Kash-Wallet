@@ -1,23 +1,29 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-const Placeholder = ({ name }) => (
-  <h1 className="p-8 text-2xl font-bold text-green-700">{name}</h1>
-);
+import AppLayout from "./components/AppLayout";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Transactions from "./pages/Transactions";
+import Wallets from "./pages/Wallets";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Placeholder name="Login page" />} />
-      <Route path="/register" element={<Placeholder name="Register page" />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route
         path="/"
         element={
           <ProtectedRoute>
-            <Placeholder name="Dashboard" />
+            <AppLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="wallets" element={<Wallets />} />
+        <Route path="transactions" element={<Transactions />} />
+      </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
